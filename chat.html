@@ -1,0 +1,216 @@
+{% extends 'layout.html' %}
+{% set simple_header = True %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/chat.css') }}" />
+<style>
+  body {
+    background: #eef2f7;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .chatbot {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+  }
+
+  .chatbot-profile {
+    width: 25%;
+    background: linear-gradient(180deg, #e0f7fa, #e1f5fe);
+    padding: 1rem;
+    border-right: 2px solid #ccc;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+  }
+
+  .chat-area {
+    width: 75%;
+    background: linear-gradient(180deg, #f9fbfd, #ffffff);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .chat-bubble {
+    background: linear-gradient(135deg, #d1c4e9, #b39ddb);
+    border-radius: 1.5rem;
+    padding: 1rem;
+    color: white;
+    max-width: 60%;
+    word-wrap: break-word;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  }
+
+  .right-msg .chat-bubble {
+    background: linear-gradient(135deg, #80cbc4, #4db6ac);
+    color: white;
+    align-self: flex-end;
+  }
+
+  .chat-image {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e0e0e0;
+    margin-right: 10px;
+  }
+
+  .chat-info-name {
+    font-weight: bold;
+    font-size: 0.95rem;
+  }
+
+  .chat-info-time {
+    font-size: 0.75rem;
+    color: #ccc;
+  }
+
+  .tools {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    gap: 10px;
+    background: #f1f5f9;
+    border-radius: 10px;
+  }
+
+  .chat-inputarea {
+    display: flex;
+    padding: 1rem;
+    gap: 10px;
+    border-top: 2px solid #e0e0e0;
+    background-color: #f9fafb;
+  }
+
+  .chat-input {
+    flex-grow: 1;
+    padding: 0.7rem 1rem;
+    border: 1px solid #cfd8dc;
+    border-radius: 9999px;
+    outline: none;
+    font-size: 1rem;
+    background-color: #ffffff;
+  }
+
+  .btn-outline-info,
+  .btn-outline-success {
+    border-radius: 9999px;
+  }
+
+  .btn-outline-info:hover,
+  .btn-outline-success:hover {
+    transform: scale(1.05);
+    transition: 0.3s ease;
+  }
+
+  .chatbot-right-sidebar {
+    width: 25%;
+    background: #fffde7;
+    padding: 1rem;
+    border-left: 2px solid #ccc;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.05);
+  }
+
+  .right-box {
+    background: #ffffff;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+
+  .right-box ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .right-box li {
+    margin-bottom: 0.5rem;
+  }
+
+</style>
+{% endblock style %}
+
+{% block content %}
+<div id="chatbot" class="chatbot">
+
+  <!-- Chat Area -->
+  <div class="chat-area">
+    <main id="main-chat" class="main-chat p-3" style="overflow-y: auto; height: 70vh;">
+      {% if current_user.is_authenticated and messages %}
+        {% for message in messages %}
+          {% if message.sender == 'user' %}
+            <div class="chat right-msg d-flex mb-3 justify-content-end">
+              <div class="chat-bubble">
+                <div class="chat-info">
+                  <div class="chat-info-name">You</div>
+                  <div class="chat-info-time">{{ message.timestamp.strftime('%d/%m/%Y, %H:%M') }}</div>
+                </div>
+                <div class="chat-text">{{ message.message }}</div>
+              </div>
+              <img src="{{ url_for('static', filename='profile_images/' + current_user.profile_image) }}" class="chat-image" />
+            </div>
+          {% else %}
+            <div class="chat left-msg d-flex mb-3">
+              <img src="{{ url_for('static', filename='images/cuturobo.jpeg') }}" class="chat-image" />
+              <div class="chat-bubble">
+                <div class="chat-info">
+                  <div class="chat-info-name">MindBandhu</div>
+                  <div class="chat-info-time">{{ message.timestamp.strftime('%d/%m/%Y, %H:%M') }}</div>
+                </div>
+                <div class="chat-text">{{ message.message | safe }}</div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      <!-- Initial Welcome Message -->
+      <p class="text-muted text-center my-2">Today</p>
+      <div class="chat left-msg d-flex mb-3">
+        <img src="{{ url_for('static', filename='images/cuturobo.jpeg') }}" class="chat-image" />
+        <div class="chat-bubble">
+          <div class="chat-info">
+            <div class="chat-info-name">Mindbandhu<div>
+            <div class="chat-info-time">**:**</div>
+          </div>
+          <div class="chat-text">
+            {% if current_user.is_authenticated %}
+              Welcome back <b>{{ current_user.username }}</b>! 😊<br> How can I support you today?
+            {% else %}
+              Hi there 👋 Welcome to MindBandhu: your mental health companion.<br> Type a message or try a mindfulness exercise below. 🌱
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </main>
+
+    
+
+    <!-- Input -->
+    <form id="message-form" class="chat-inputarea" image_file="{{ current_user.profile_image if current_user.is_authenticated else 'default.jpg' }}">
+      <input type="text" class="chat-input" id="textInput" autocomplete="off" placeholder="Type your message here..." />
+      <button type="submit" class="btn btn-outline-info">📩 Send</button>
+    </form>
+  </div>
+
+  <!-- Right Sidebar -->
+  <div class="chatbot-right-sidebar">
+    <div class="right-box">
+      <h5>🤖 About MindBandhu</h5>
+      <p>Your mental health support companion. Talk to it freely, and it listens without judgment.</p>
+      <hr>
+      <h6>📌 Helpful Resources</h6>
+      <ul class="resource-links">
+        <li><a href="{{ url_for('main.about') }}">About Us</a></li>
+        <li><a href="{{ url_for('main.sos') }}">SOS Helpline</a></li>
+        <li><a href="mailto:mitalirawat203@gmail.com">Contact Developer</a></li>
+      </ul>
+      <hr>
+      <p style="font-size: 0.8rem;">Developed by <b>Mitali Rawat</b> ❤️</p>
+    </div>
+  </div>
+</div>
+
+{% include "chat/send_function.html" %}
+{% endblock content %}

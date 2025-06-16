@@ -1,0 +1,70 @@
+{%extends 'layout.html'%}
+{% set hide_navbar = True %}
+
+{%block content%}
+<div class="custom-header">
+  <h1>🌼 Welcome to MindBandhu</h1>
+  <p>Learn more about our mission to support mental well-being.</p>
+</div>
+
+<div class="container-fluid d-grid">
+  <h1
+    id="about-us-title"
+    class="mx-auto mt-2 mb-5 fw-bold font-monospace border-bottom border-info"
+  >
+    About Us
+  </h1>
+  <div class="container">
+    <!-- Hero Section -->
+    <div class="row mb-5 align-items-center">
+      <div class="col-md-5 text-center">
+        <img
+          src="{{url_for('static',filename='images/cuturobo.jpeg')}}"
+          alt="Mental Health Chatbot Picture"
+          class="rounded-circle border border-secondary shadow"
+          style="width: 18.75rem; height: 18.75rem; max-width: 100%;"
+        />
+      </div>
+      <div class="col-md-7">
+        <p class="lead">
+          Meet MindBandhu - your compassionate digital companion for mental wellness! We're here to support you on your journey toward better mental health with personalized guidance, evidence-based resources, and a judgment-free space to explore your feelings.
+        </p>
+        <p>
+          Taking care of your mental health shouldn't feel overwhelming or intimidating. That's why MindBandhu offers 24/7 support in a safe, private environment where you can take things at your own pace and get the help you deserve.
+        </p>
+        <div class="alert alert-warning">
+          <strong>Please Note:</strong> While MindBandhu provides valuable support and resources, we're not a replacement for professional therapy or medical treatment. If you're experiencing severe distress or crisis, please reach out to a mental health professional or emergency services immediately.
+        </div>
+      </div>
+    </div>
+
+    <!-- Mission and Team Section -->
+    <div class="row">
+      <div class="col-lg-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h2 class="card-title text-primary">What We're About</h2>
+            <p class="card-text">
+              Mental health matters, and so do you. MindBandhu is built on the belief that everyone deserves access to quality mental health support. We provide practical tools, coping strategies, and wellness resources that you can use anytime, anywhere. From mood tracking and mindfulness exercises to personalized insights and crisis support information - we've got your back when you need us most.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h2 class="card-title text-primary">Behind MindBandhu</h2>
+            <p class="card-text">
+              Hi! 👋 I'm the creator of MindBandhu, and honestly? This project means everything to me. As a student who's witnessed friends struggle with mental health challenges, I wanted to build something that could offer real help - not just generic advice, but actual support that feels personal and caring. MindBandhu isn't just code to me; it's my way of saying "you're not alone" to anyone who needs to hear it. Every feature, every response, every resource has been crafted with love and the hope that it might make someone's day just a little bit brighter.
+            </p>
+            <div class="mt-3 p-3 bg-light rounded">
+              <strong>Want to connect?</strong><br>
+              I'm always excited to hear how MindBandhu is helping people or get suggestions for making it even better! Drop me a message at <strong>mitalirawat203@gmail.com</strong> - seriously, I read every single email and would love to chat! 😊
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock content%}

@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block navigation %}{% endblock navigation %}
+
+{% block content %}
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center" style="background: #fdf6ff;">
+  <div class="row shadow-lg rounded-4 overflow-hidden" style="max-width: 1000px; width: 100%; background: #fff;">
+
+    <!-- Left Section -->
+    <div class="col-md-6 d-flex flex-column justify-content-center align-items-center p-4" style="background: #e9d5ff;">
+      <img src="{{ url_for('static', filename='images/cuturobo.jpeg') }}" alt="MindBandhu" class="img-fluid rounded-circle mb-3 shadow" style="width: 200px; height: 200px;">
+      <h1 class="fw-bold font-monospace text-dark">MindBandhu</h1>
+      <p class="text-center" style="color: #5b21b6;">Your mental health companion 🌿</p>
+    </div>
+
+    <!-- Right Section -->
+    <div class="col-md-6 d-flex flex-column justify-content-center align-items-center p-4 gap-3">
+      <a href="{{ url_for('chatbot.chat') }}" class="btn w-100 text-white fw-bold" style="background-color: #9333ea;">🌟 Start Talking</a>
+      <a href="{{ url_for('main.about') }}" class="btn w-100 text-white" style="background-color: #c084fc;">ℹ️ About Us</a>
+    </div>
+  </div>
+</div>
+{% endblock content %}
